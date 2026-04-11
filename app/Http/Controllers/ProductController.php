@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ProductController extends Controller
 {
+     use AuthorizesRequests;
     public function index()
     {
         $products = Product::all();
@@ -60,18 +62,21 @@ class ProductController extends Controller
     }
 
     public function edit(Product $product)
-    {
-        $users = User::orderBy('name')->get();
+{
+    $this->authorize('update', $product);
 
-        return view('product.edit', compact('product', 'users'));
-    }
+    $users = User::orderBy('name')->get();
+    return view('product.edit', compact('product', 'users'));
+}
 
     public function delete($id)
-    {
-        $product = Product::findOrFail($id);
+{
+    $product = Product::findOrFail($id);
 
-        $product->delete();
+    $this->authorize('delete', $product);
 
-        return redirect()->route('product.index')->with('success', 'Product berhasil dihapus');
-    }
+    $product->delete();
+
+    return redirect()->route('product.index')->with('success', 'Product berhasil dihapus');
+}
 }
