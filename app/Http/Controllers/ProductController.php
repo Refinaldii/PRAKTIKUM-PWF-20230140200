@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -18,19 +19,19 @@ class ProductController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'quantity' => 'required|integer',
-            'price' => 'required|numeric',
-            'user_id' => 'required|exists:users,id',
-        ]);
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'quantity' => 'required|integer',
+        'price' => 'required|numeric',
+    ]);
 
-        $product = Product::create($validated);
+        
 
-        return redirect()->route('product.index')->with('success', 'Product created successfully.');
-    }
+    Product::create($validated);
 
+    return redirect()->route('product.index')->with('success', 'Product created successfully.');
+}
     public function create()
     {
         $users = User::orderBy('name')->get();
