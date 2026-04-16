@@ -24,9 +24,16 @@ Pertemuan 5
 Jika User Yang login
 <img width="1915" height="1079" alt="image" src="https://github.com/user-attachments/assets/b9dcd504-dd3c-4afb-8b98-fc7f4ef1fea0" />
 
+
 Jika Admin yang login
 <img width="1905" height="1079" alt="image" src="https://github.com/user-attachments/assets/6a82a1e6-9e33-4557-8029-170084b24f6a" />
-
+<img width="1917" height="1079" alt="image" src="https://github.com/user-attachments/assets/4f8c01ba-e077-4296-addd-2194813a6a58" />
 <img width="1919" height="1074" alt="image" src="https://github.com/user-attachments/assets/92046ee1-0be1-4f31-936d-8c3aaa6d7412" />
+
+
+Pertemuan 6
+Jika Tidak di isi data dengan benar
+<img width="1917" height="1077" alt="image" src="https://github.com/user-attachments/assets/2fadfc3d-f3f1-409a-b6e7-3c1995d1a849" />
+
 
 
