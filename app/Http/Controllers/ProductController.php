@@ -4,80 +4,79 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\UpdateProductRequest;
+use App\Http\Requests\StoreProductRequest;
+
 
 class ProductController extends Controller
 {
-     use AuthorizesRequests;
     public function index()
     {
-        $products = Product::all();
-
+        $products = Product::with('user')->get(); // biar relasi aman
         return view('product.index', compact('products'));
     }
 
-    public function store(Request $request)
-{
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'quantity' => 'required|integer',
-        'price' => 'required|numeric',
-    ]);
-
-        
-
-    Product::create($validated);
-
-    return redirect()->route('product.index')->with('success', 'Product created successfully.');
-}
     public function create()
     {
-        $users = User::orderBy('name')->get();
+        return view('product.create');
+    }
 
-        return view('product.create', compact('users'));
+    public function store(StoreProductRequest $request)
+    {
+        // hanya admin
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
+        $validated = $request->validated();
+        
+
+        Product::create($validated);
+
+        return redirect()->route('product.index')
+            ->with('success', 'Product berhasil ditambahkan');
     }
 
     public function show($id)
     {
-        $product = Product::findOrFail($id);
-
+        $product = Product::with('user')->findOrFail($id);
         return view('product.view', compact('product'));
     }
 
-    public function update(Request $request, $id)
+    public function edit($id)
     {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
         $product = Product::findOrFail($id);
-
-        $validated = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'quantity' => 'sometimes|integer',
-            'price' => 'sometimes|numeric',
-            'user_id' => 'sometimes|exists:users,id',
-        ]);
-
-        $product->update($validated);
-
-        return redirect()->route('product.index')->with('success', 'Product updated successfully.');
+        return view('product.edit', compact('product'));
     }
 
-    public function edit(Product $product)
-{
-    $this->authorize('update', $product);
+    public function update(UpdateProductRequest $request, $id)
+    {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
 
-    $users = User::orderBy('name')->get();
-    return view('product.edit', compact('product', 'users'));
-}
+        $product = Product::findOrFail($id);
+        $product->update($request->validated());
 
-    public function delete($id)
-{
-    $product = Product::findOrFail($id);
+        return redirect()->route('product.index')
+            ->with('success', 'Product berhasil diupdate');
+    }
 
-    $this->authorize('delete', $product);
+    public function destroy($id)
+    {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
 
-    $product->delete();
+        $product = Product::findOrFail($id);
+        $product->delete();
 
-    return redirect()->route('product.index')->with('success', 'Product berhasil dihapus');
-}
+        return redirect()->route('product.index')
+            ->with('success', 'Product berhasil dihapus');
+    }
 }

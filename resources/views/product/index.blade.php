@@ -8,13 +8,14 @@
                     <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Product List</h2>
                     <p class="text-sm text-gray-600 dark:text-gray-400">Manage your product inventory</p>
                 </div>
-                
+                @if(auth()->user()->role == 'admin')
                 <a href="{{ route('product.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition duration-150 shadow-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                     Add Product
                 </a>
+                @endif
             </div>
 
             {{-- Flash Message --}}
@@ -42,29 +43,30 @@
                             <tr>
                                 <td class="px-6 py-4">{{ $loop->iteration }}</td>
                                 <td class="px-6 py-4">{{ $product->name }}</td>
+                                
                                 <td class="px-6 py-4">{{ $product->quantity }}</td>
                                 <td class="px-6 py-4">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
                                 <td class="px-6 py-4">{{ $product->user->name ?? '-' }}</td>
                                 <td class="px-6 py-4 text-center">
-                                    <div class="flex justify-center gap-3">
+    <div class="flex justify-center gap-3">
 
-    {{-- View --}}
-    <a href="{{ route('product.show', $product->id) }}" class="text-blue-600">View</a>
+        {{-- View --}}
+        <a href="{{ route('product.show', $product->id) }}" class="text-blue-600">View</a>
 
-    @if ($product->user_id == auth()->id())
-        {{-- Edit --}}
-        <a href="{{ route('product.edit', $product->id) }}" class="text-yellow-600">Edit</a>
+        @if (auth()->user()->role == 'admin')
+            {{-- Edit --}}
+            <a href="{{ route('product.edit', $product->id) }}" class="text-yellow-600">Edit</a>
 
-        {{-- Delete --}}
-        <form action="{{ route('product.destroy', $product->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="text-red-600">Delete</button>
-        </form>
-    @endif
+            {{-- Delete --}}
+            <form action="{{ route('product.destroy', $product->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="text-red-600">Delete</button>
+            </form>
+        @endif
 
-</div>
-                                </td>
+    </div>
+</td>
                             </tr>
                         @empty
                             <tr>
@@ -80,3 +82,4 @@
         </div>
     </div>
 </x-app-layout> 
+
