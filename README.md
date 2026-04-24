@@ -36,4 +36,10 @@ Jika Tidak di isi data dengan benar
 <img width="1917" height="1077" alt="image" src="https://github.com/user-attachments/assets/2fadfc3d-f3f1-409a-b6e7-3c1995d1a849" />
 
 
+Pertemuan 7
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/9fa5b49b-bee7-4197-950d-2cc176c01348" />
+
+<img width="1919" height="1057" alt="image" src="https://github.com/user-attachments/assets/1e1c12f8-c7a8-4bfb-a2b3-210ee14eb5fc" />
+
+
 
