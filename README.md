@@ -41,5 +41,10 @@ Pertemuan 7
 
 <img width="1919" height="1057" alt="image" src="https://github.com/user-attachments/assets/1e1c12f8-c7a8-4bfb-a2b3-210ee14eb5fc" />
 
+Pertemuan 9
+<img width="1909" height="1079" alt="image" src="https://github.com/user-attachments/assets/0ce1a32f-7db5-4112-872f-eb5d221d09d6" />
+
+
+
 
 
