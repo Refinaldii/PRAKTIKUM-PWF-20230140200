@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Requests\StoreProductRequest;
+use Illuminate\Support\Facades\Log;
 
 
 class ProductController extends Controller
@@ -38,11 +39,35 @@ class ProductController extends Controller
             ->with('success', 'Product berhasil ditambahkan');
     }
 
-    public function show($id)
-    {
-        $product = Product::with('user')->findOrFail($id);
-        return view('product.view', compact('product'));
+    public function show(int $id)
+{
+    try {
+
+        $product = Product::with('category')->find($id);
+
+        if (!$product) {
+
+            return response()->json([
+                'message' => 'Product tidak ditemukan',
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Product retrieved successfully',
+            'data' => $product
+        ], 200);
+
+    } catch (\Throwable $e) {
+
+        Log::error('Gagal mengambil data produk', [
+            'message' => $e->getMessage(),
+        ]);
+
+        return response()->json([
+            'message' => 'Terjadi kesalahan'
+        ], 500);
     }
+}
 
     public function edit($id)
     {
